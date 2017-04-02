@@ -16,7 +16,11 @@ echo "Filename: ${__FILE__}"
 echo "################################"
 
 
-
+echo "Check ssh-copy-id command"
+echo "kill zabbix agent on $1 machine"
+echo "Start playbook"
 
 #ansible-playbook  --extra-vars="target=$1" example2.yml -vvv
-ansible-playbook   --extra-vars '@file.json' example2.yml -vvv
+ansible-playbook  --extra-vars="target=$1" example3.yml -vvv
+
+cp logfile $1.log
