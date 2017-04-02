@@ -16,11 +16,15 @@ echo "Filename: ${__FILE__}"
 echo "################################"
 
 
-echo "Check ssh-copy-id command"
-echo "kill zabbix agent on $1 machine"
+echo "doing pre-work ...."
+sshpass -f pass.txt  ssh-copy-id -i ~/.ssh/id_rsa.pub sshadmin@$1
+
+echo "kill zabbix agent on $1 machine (if any)"
+ssh sshadmin@$1  "pid=\$(ps aux | grep 'zabbix' | awk '{print \$2}' | head -1); echo \$pid |xargs kill -9"
+
 echo "Start playbook"
 
-#ansible-playbook  --extra-vars="target=$1" example2.yml -vvv
-ansible-playbook  --extra-vars="target=$1" example3.yml -vvv
+#ansible-playbook  --extra-vars="target=$1" example3.yml -vvv
 
 cp logfile $1.log
+tail -1 logfile >>summary.log
