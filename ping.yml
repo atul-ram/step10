@@ -1,0 +1,13 @@
+---
+- hosts:
+    - "{{ target }}"
+  remote_user: sshadmin
+  gather_facts: false
+  become: true
+  become_user: root
+  vars:
+    content: "{{ lookup('csvfile','{{ target }} file=./file.csv delimiter=, col=2') }}"
+  
+  tasks:
+    - name: lookup of a cvs file
+      debug: msg="and it is ...{{ content }}"

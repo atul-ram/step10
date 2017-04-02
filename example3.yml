@@ -1,0 +1,13 @@
+---
+- name: zabbix installation  playbook
+  hosts: "{{ target }}"
+  gather_facts: no
+  remote_user: sshadmin
+  become: true
+  become_user: root
+  vars:
+    Hostname: "{{ lookup('csvfile','{{ target }} file=./file.csv delimiter=| col=1') }}"
+    ServerList: "{{ lookup('csvfile','{{ target }} file=./file.csv delimiter=| col=2') }}"
+    ActiveServerList: "{{ lookup('csvfile','{{ target }} file=./file.csv delimiter=| col=3') }}"
+  roles:
+    - zabbix
